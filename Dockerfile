@@ -1,10 +1,7 @@
-FROM alpine/curl
-LABEL authors="Vladimir <opa_oz> Levin"
+FROM ghcr.io/cuhk-haosun/code-docker-minio:main
 
-RUN curl https://dl.min.io/client/mc/release/linux-amd64/mc \
-  --create-dirs \
-  -o /minio-binaries/mc
-RUN chmod +x /minio-binaries/mc
+LABEL authors="Vladimir <opa_oz> Levin"
+LABEL authors="Xing Zhao Milokita"
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
