@@ -1,5 +1,5 @@
 name: Yet another MinIO Download
-description: Download file(s) from MinIO instance (self-hosted as well)
+description: Download or Upload file(s) from MinIO instance (self-hosted as well)
 author: "Vladimir <opa_oz> Levin"
 branding:
   icon: download-cloud
@@ -15,13 +15,13 @@ inputs:
     description: MinIO secret key
     required: true
   bucket:
-    description: Target bucket to download file from
+    description: Target bucket to download or upload file
     required: true
   source:
-    description: File in MinIO's bucket to download (with a leading slash, use `recursive=true` to download directory)
+    description: File in MinIO's bucket to download or upload (with a leading slash, use `recursive=true` to handle directories)
     required: true
   target:
-    description: Local path to download to (default='./')
+    description: Local path to download to or upload from (default='./')
     required: false
     default: './'
   insecure:
@@ -29,9 +29,13 @@ inputs:
     required: false
     default: 'false'
   recursive:
-    description: If you specify a directory, you must also set `recursive=true` to recursively copy the contents of that directory. If you omit the `recursive` argument, action only copies objects in the top level of the specified directory.
+    description: If you specify a directory, you must also set `recursive=true` to recursively handle contents. If you omit the `recursive` argument, the action only handles specified objects.
     required: false
     default: 'false'
+  direction:
+    description: Operation type: `download` (default) or `upload` to configure the action.
+    required: false
+    default: 'download'
 runs:
   using: docker
   image: Dockerfile
@@ -41,6 +45,7 @@ runs:
     YA_SECRET_KEY: "${{ inputs.secret_key }}"
     YA_INSECURE: "${{ inputs.insecure }}"
     YA_RECURSIVE: "${{ inputs.recursive }}"
+    YA_DIRECTION: "${{ inputs.direction }}"
   args:
     - "${{ inputs.bucket }}${{ inputs.source }}"
     - "${{ inputs.target }}"
