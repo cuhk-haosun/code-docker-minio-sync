@@ -11,4 +11,13 @@ if [[ "$YA_RECURSIVE" == "true" ]]; then
 fi
 
 mc alias set ${insecure_option:+"$insecure_option"} target "$YA_ENDPOINT" "$YA_ACCESS_KEY" "$YA_SECRET_KEY"
-mc ${insecure_option:+"$insecure_option"} cp ${recursive_option:+"$recursive_option"} "target/$1" $2
+
+# Switch behavior based on YA_DIRECTION variable
+if [[ "$YA_DIRECTION" == "download" ]]; then
+  mc ${insecure_option:+"$insecure_option"} cp ${recursive_option:+"$recursive_option"} "target/$1" "$2"
+elif [[ "$YA_DIRECTION" == "upload" ]]; then
+  mc ${insecure_option:+"$insecure_option"} cp ${recursive_option:+"$recursive_option"} "$2" "target/$1"
+else
+  echo "Error: Unknown YA_DIRECTION value. Use 'download' or 'upload'."
+  exit 1
+fi
