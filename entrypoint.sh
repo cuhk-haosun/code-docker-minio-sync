@@ -25,3 +25,5 @@ case "${YA_DIRECTION:-download}" in
     exit 1
     ;;
 esac
+
+mc ls --recusive "target/$1"
