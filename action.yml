@@ -34,7 +34,7 @@ inputs:
     default: 'false'
   direction:
     description: Operation type: `download` (default) or `upload` to configure the action.
-    required: false
+    required: true
     default: 'download'
 runs:
   using: docker
