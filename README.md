@@ -1,57 +1,65 @@
-# Yet another MinIO Download GitHub Action
+# MinIO File Transfer GitHub Action
 
-🥳Check also [Yet another MinIO Upload GitHub Action](https://github.com/yakubique/minio-upload)
+This GitHub Action runs the MinIO client ([MinIO mc](https://min.io/docs/minio/linux/reference/minio-mc.html)) to handle file(s) or directory transfers between your repository and MinIO (self-hosted or S3-compatible services).
 
-Runs [minio client](https://min.io/docs/minio/linux/reference/minio-mc.html) to download file(s) from MinIO (self-hosted as well)
+## Usage Examples
 
-## Tricky part
-_Technically_ this action can be used with different S3-compatible services, but it **needs tuning**
-
-
-## Usage
-
-1. Download a file
+### Download a File
 ```yaml
 - name: Download from MinIO
-  uses: yakubique/minio-download@v1.1.1
+  uses: cuhk-haosun/code-docker-minio-download@main
   with:
-    endpoint: ${{ secrets.MINIO_ENDPOINT }}
-    access_key: ${{ secrets.MINIO_ACCESS_KEY }}
-    secret_key: ${{ secrets.MINIO_SECRET_KEY }}
-    bucket: my_bucket_name
+    endpoint: ${{ secrets.AWS_ACCESS_URL }}
+    access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    bucket: demo
     # Leading slash is required
-    source: /builds/my-build-1-0-1.tar.gz
+    local: /demo.txt
     target: './'
+    direction: 'download'
 ```
 
-2. Download a directory
+### Download a Directory
 ```yaml
-- name: Download a directory to MinIO
-  uses: yakubique/minio-download@v1.1.1
+- name: Download a directory from MinIO
+  uses: cuhk-haosun/code-docker-minio-download@main
   with:
-    endpoint: ${{ secrets.MINIO_ENDPOINT }}
-    access_key: ${{ secrets.MINIO_ACCESS_KEY }}
-    secret_key: ${{ secrets.MINIO_SECRET_KEY }}
-    bucket: my_bucket_name
+    endpoint: ${{ secrets.AWS_ACCESS_URL }}
+    access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    bucket: demo
     # Leading slash is required
-    source: '/my-awesome-site'
-    target: './folder-to-download'
-    # If you omit the `recursive` argument, action only copies objects in the top level of the specified directory.
-    recursive: true
+    local: /my-directory-path/
+    target: './downloaded-folder'
+    direction: 'download'
 ```
 
-3. Download from the insecure MinIO instance (_http-only_)
+### Upload a File
 ```yaml
-- name: Download from MinIO
-  uses: yakubique/minio-download@v1.1.1
+- name: Upload to MinIO
+  uses: cuhk-haosun/code-docker-minio-download@main
   with:
-    endpoint: ${{ secrets.MINIO_ENDPOINT }}
-    access_key: ${{ secrets.MINIO_ACCESS_KEY }}
-    secret_key: ${{ secrets.MINIO_SECRET_KEY }}
-    bucket: my_bucket_name
+    endpoint: ${{ secrets.AWS_ACCESS_URL }}
+    access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    bucket: demo
     # Leading slash is required
-    source: /access-log.1970.01.01.tar.gz
-    target: '/logs-to-process'
-    # Disables TLS/SSL certificate verification. Allows TLS connectivity to servers with invalid certificates.
-    insecure: true
+    remote: /
+    local: './upload.txt'
+    direction: 'upload'
+```
+
+### Upload a Directory
+```yaml
+- name: Upload a directory to MinIO
+  uses: cuhk-haosun/code-docker-minio-download@main
+  with:
+    endpoint: ${{ secrets.AWS_ACCESS_URL }}
+    access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    bucket: demo
+    # Leading slash is required
+    remote: /my-remote-directory/
+    local: './local-folder-to-upload'
+    direction: 'upload'
 ```
