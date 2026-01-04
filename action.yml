@@ -17,10 +17,10 @@ inputs:
   bucket:
     description: Target bucket to download or upload file
     required: true
-  source:
+  remote:
     description: File in MinIO's bucket to download or upload (with a leading slash, use `recursive=true` to handle directories)
     required: true
-  target:
+  local:
     description: Local path to download to or upload from (default='./')
     required: false
     default: './'
@@ -47,5 +47,5 @@ runs:
     YA_RECURSIVE: "${{ inputs.recursive }}"
     YA_DIRECTION: "${{ inputs.direction }}"
   args:
-    - "${{ inputs.bucket }}${{ inputs.source }}"
-    - "${{ inputs.target }}"
+    - "${{ inputs.bucket }}${{ inputs.remote }}"
+    - "${{ inputs.local }}"
