@@ -1,9 +1,11 @@
-name: Yet another MinIO Download
+name: MinIO Sync
 description: Download or Upload file(s) from MinIO instance (self-hosted as well)
-author: "Vladimir <opa_oz> Levin"
+author: "Xing Zhao [Milokita]"
+
 branding:
   icon: download-cloud
-  color: purple
+  color: blue
+  
 inputs:
   endpoint:
     description: MinIO endpoint (use `insecure=true` for HTTP-only)
@@ -36,6 +38,7 @@ inputs:
     description: "Operation type: `download` (default) or `upload` to configure the action."
     required: true
     default: 'download'
+    
 runs:
   using: docker
   image: Dockerfile
