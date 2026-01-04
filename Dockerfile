@@ -1,4 +1,4 @@
-FROM alpine/curl:8.2.1
+FROM alpine/curl
 LABEL authors="Vladimir <opa_oz> Levin"
 
 RUN curl https://dl.min.io/client/mc/release/linux-amd64/mc \
