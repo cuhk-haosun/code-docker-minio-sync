@@ -33,7 +33,7 @@ inputs:
     required: false
     default: 'false'
   direction:
-    description: Operation type: `download` (default) or `upload` to configure the action.
+    description: Operation type: download (default) or upload to configure the action.
     required: true
     default: 'download'
 runs:
